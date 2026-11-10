@@ -3,22 +3,32 @@
     "id": "lot-001",
     "title": "USB Podcasting Microphone Kit",
     "category": "Audio & Podcasting",
-    "tags": ["Podcast", "Microphone", "Voiceover"],
     "loanPeriod": "3 Days",
     "image": "img/podcast-mic.jpg",
-    "includes": ["Cardioid USB Condenser Mic", "Pop Filter", "Desk Boom Arm", "USB-C to USB-A Cable"],
     "catalogUrl": "https://rider.primo.exlibrisgroup.com/...",
-    "status": "Available at Circulation Desk"
+    "manualUrl": "https://example.com/manuals/podcast-mic.pdf",
+    "checklist": [
+      { "item": "Condenser Microphone Body", "notes": "Check for dents or loose dial" },
+      { "item": "Heavy Metal Desktop Stand / Boom Arm", "notes": "Includes mounting clamp" },
+      { "item": "Mesh Pop Filter", "notes": "Must be attached or bagged" },
+      { "item": "USB-C to USB-A Connection Cable", "notes": "Neatly coiled with velcro tie" },
+      { "item": "Padded Storage Zipper Case", "notes": "Clean interior" }
+    ]
   },
   {
     "id": "lot-002",
     "title": "Smartphone Mobile Video Rig",
     "category": "Video & Photo",
-    "tags": ["Video", "Lighting", "Tripod"],
     "loanPeriod": "3 Days",
     "image": "img/mobile-video-rig.jpg",
-    "includes": ["Universal Phone Cage", "Rechargeable Mini LED Light", "Shotgun Mic", "Compact Tripod"],
     "catalogUrl": "https://rider.primo.exlibrisgroup.com/...",
-    "status": "Available at Circulation Desk"
+    "manualUrl": "",
+    "checklist": [
+      { "item": "Dual-Handgrip Phone Cage", "notes": "Spring clamp intact" },
+      { "item": "Rechargeable Mini LED Light Panel", "notes": "Confirm power turns on" },
+      { "item": "Compact Shotgun Microphone", "notes": "Includes foam windscreen" },
+      { "item": "3.5mm TRRS to Lightning/USB-C Adapters", "notes": "Two small dongles in pouch" },
+      { "item": "Mini Tabletop Tripod", "notes": "Ball head tightened" }
+    ]
   }
 ]
