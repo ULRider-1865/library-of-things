@@ -1,0 +1,24 @@
+[
+  {
+    "id": "lot-001",
+    "title": "USB Podcasting Microphone Kit",
+    "category": "Audio & Podcasting",
+    "tags": ["Podcast", "Microphone", "Voiceover"],
+    "loanPeriod": "3 Days",
+    "image": "img/podcast-mic.jpg",
+    "includes": ["Cardioid USB Condenser Mic", "Pop Filter", "Desk Boom Arm", "USB-C to USB-A Cable"],
+    "catalogUrl": "https://rider.primo.exlibrisgroup.com/...",
+    "status": "Available at Circulation Desk"
+  },
+  {
+    "id": "lot-002",
+    "title": "Smartphone Mobile Video Rig",
+    "category": "Video & Photo",
+    "tags": ["Video", "Lighting", "Tripod"],
+    "loanPeriod": "3 Days",
+    "image": "img/mobile-video-rig.jpg",
+    "includes": ["Universal Phone Cage", "Rechargeable Mini LED Light", "Shotgun Mic", "Compact Tripod"],
+    "catalogUrl": "https://rider.primo.exlibrisgroup.com/...",
+    "status": "Available at Circulation Desk"
+  }
+]
