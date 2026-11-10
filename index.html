@@ -98,6 +98,11 @@
               <div class="mt-auto d-grid">
                 <a href="${item.catalogUrl}" target="_blank" class="btn btn-outline-dark btn-sm fw-semibold">Check Availability & Hold</a>
               </div>
+              <!-- Inside the renderItems() loop in index.html -->
+<div class="mt-auto d-flex gap-2">
+  <a href="${item.catalogUrl}" target="_blank" class="btn btn-outline-dark btn-sm fw-semibold flex-grow-1">Hold</a>
+  <a href="check.html?id=${item.id}" class="btn btn-outline-secondary btn-sm" title="View Packing Checklist">📋 Slip</a>
+</div>
             </div>
           </div>`;
         grid.appendChild(card);
