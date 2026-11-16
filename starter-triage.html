@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moore Library Interactive Student Triage</title>
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --rider-purple: #572c9f;
+      --rider-purple-dark: #3b1c71;
+      --rider-purple-soft: #f3effb;
+      --rider-cranberry: #9f1239;
+      --rider-teal: #0d9488;
+      --rider-teal-dark: #0f766e;
+      --rider-slate: #1e293b;
+      --rider-border: #e2e8f0;
+    }
+
+    body {
+      background-color: transparent;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--rider-slate);
+      margin: 0;
+      padding: 0.25rem;
+    }
+
+    .widget-shell {
+      border: 2px solid var(--rider-purple);
+      border-radius: 0.75rem;
+      background-color: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(87, 44, 159, 0.08);
+    }
+
+    .widget-header {
+      background: linear-gradient(90deg, var(--rider-purple) 0%, var(--rider-purple-dark) 100%);
+      color: #ffffff;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .choice-btn {
+      text-align: left;
+      border: 1.5px solid var(--rider-border);
+      background-color: #ffffff;
+      color: var(--rider-slate);
+      border-radius: 0.6rem;
+      padding: 0.85rem 1rem;
+      font-weight: 600;
+      font-size: 0.94rem;
+      transition: all 0.15s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .choice-btn:hover {
+      border-color: var(--rider-purple);
+      background-color: var(--rider-purple-soft);
+      transform: translateY(-1px);
+    }
+
+    .choice-btn.active {
+      border-color: var(--rider-purple);
+      background-color: var(--rider-purple);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(87, 44, 159, 0.22);
+    }
+
+    .choice-btn.active .choice-sub {
+      color: rgba(255, 255, 255, 0.88) !important;
+    }
+
+    .result-panel {
+      background-color: #f8fafc;
+      border: 1px solid var(--rider-border);
+      border-left: 5px solid var(--rider-teal);
+      border-radius: 0.6rem;
+      padding: 1.15rem;
+    }
+
+    .custom-script-box {
+      background-color: #ffffff;
+      border: 1px dashed var(--rider-purple);
+      border-radius: 0.5rem;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.92rem;
+    }
+
+    .btn-rider-purple {
+      background-color: var(--rider-purple);
+      border-color: var(--rider-purple);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .btn-rider-purple:hover {
+      background-color: var(--rider-purple-dark);
+      border-color: var(--rider-purple-dark);
+      color: #ffffff;
+    }
+
+    .btn-rider-teal {
+      background-color: var(--rider-teal);
+      border-color: var(--rider-teal);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .btn-rider-teal:hover {
+      background-color: var(--rider-teal-dark);
+      border-color: var(--rider-teal-dark);
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="widget-shell">
+  <!-- Header -->
+  <div class="widget-header">
+    <div>
+      <span class="badge bg-white text-dark me-2">INTERACTIVE HELPER</span>
+      <strong class="fs-6">What Are You Dealing With Right Now?</strong>
+    </div>
+    <span class="small" style="color: rgba(255,255,255,0.9);">Tap a situation for an instant game plan</span>
+  </div>
+
+  <div class="p-3">
+    <!-- 4 Situation Selector Buttons -->
+    <div class="row g-2 mb-3" role="group" aria-label="Choose your current situation">
+      <div class="col-sm-6 col-lg-3">
+        <button type="button" class="btn choice-btn w-100 active" data-scenario="blank" onclick="selectScenario('blank', this)">
+          <span>“I haven't started my paper and feel overwhelmed.”</span>
+          <span class="choice-sub small text-muted fw-normal mt-1">Assignment &amp; topic kickoff</span>
+        </button>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+        <button type="button" class="btn choice-btn w-100" data-scenario="peer" onclick="selectScenario('peer', this)">
+          <span>“My professor wants ‘peer-reviewed’ sources.”</span>
+          <span class="choice-sub small text-muted fw-normal mt-1">Jargon decoder + filter tip</span>
+        </button>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+        <button type="button" class="btn choice-btn w-100" data-scenario="paywall" onclick="selectScenario('paywall', this)">
+          <span>“An article is asking me to pay $40.”</span>
+          <span class="choice-sub small text-muted fw-normal mt-1">Free PDF delivery &amp; login</span>
+        </button>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+        <button type="button" class="btn choice-btn w-100" data-scenario="space" onclick="selectScenario('space', this)">
+          <span>“I just need a spot to sit, plug in, or focus.”</span>
+          <span class="choice-sub small text-muted fw-normal mt-1">Outlets, markers &amp; noise zones</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Optional Course Input to Personalize Their Copy-Paste Script -->
+    <div class="row g-2 align-items-center mb-3">
+      <div class="col-md-5">
+        <label for="courseInput" class="form-label small fw-semibold mb-1">Optional: Type your class name to customize your message</label>
+        <input type="text" id="courseInput" class="form-control form-control-sm" placeholder="e.g., BIO-115, ENG-101, Psychology..." oninput="updateScriptText()" />
+      </div>
+      <div class="col-md-7 small text-muted pt-md-3">
+        Typing a class name automatically updates the ready-to-send script below so you don't have to edit brackets.
+      </div>
+    </div>
+
+    <!-- Dynamic Output Panel -->
+    <div class="result-panel" id="resultPanel" aria-live="polite">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+        <div>
+          <span class="badge mb-1" style="background-color: var(--rider-teal);" id="resBadge">STEP-BY-STEP GAME PLAN</span>
+          <h4 class="h6 fw-bold mb-0" id="resTitle"></h4>
+        </div>
+        <div class="d-flex flex-wrap gap-2" id="resActions"></div>
+      </div>
+
+      <ol class="small mb-3 ps-3" id="resSteps"></ol>
+
+      <!-- Auto-Generated Copy-Paste Script -->
+      <div class="custom-script-box d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="flex-grow-1">
+          <span class="d-block small fw-bold text-uppercase" style="color: var(--rider-purple);">Ready-to-Send Chat or Desk Script:</span>
+          <span id="resScript" class="fst-italic"></span>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary flex-shrink-0" id="copyBtn" onclick="copyGeneratedScript()">Copy Script</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // 1. UPDATE YOUR RIDER UNIVERSITY LINKS HERE ONCE
+  // ============================================================
+  const CONFIG = {
+    libcalUrl: "https://rider.libcal.com/appointments",
+    chatUrl: "https://guides.rider.edu/home",
+    illUrl: "https://guides.rider.edu/home",
+    searchUrl: "https://guides.rider.edu/home"
+  };
+
+  // ============================================================
+  // 2. SCENARIO DATA (PLAIN ENGLISH, ZERO JARGON)
+  // ============================================================
+  const SCENARIOS = {
+    blank: {
+      badge: "NO OUTLINE NEEDED",
+      title: "Starting From Scratch Is Completely Normal",
+      steps: [
+        "<strong>Bring just your assignment prompt:</strong> You do not need a thesis statement or a finished topic before talking to us.",
+        "<strong>Pick 2–3 everyday keywords:</strong> Write down the main topic words from your syllabus—don't worry about fancy academic phrasing yet.",
+        "<strong>Grab a 15-minute kickoff:</strong> A librarian will sit with you (on Zoom or in person) and help you pull 3 solid sources right away."
+      ],
+      scriptTemplate: (course) => `Hi! I have a research assignment for ${course} and I’m starting from scratch. Can someone help me narrow down a topic and find 3 good sources?`,
+      primaryBtn: { text: "Book a 15-Min Kickoff", url: CONFIG.libcalUrl },
+      secondaryBtn: { text: "Open Live Chat", url: CONFIG.chatUrl }
+    },
+    peer: {
+      badge: "JARGON DECODER",
+      title: "How to Find 'Peer-Reviewed' Articles in 30 Seconds",
+      steps: [
+        "<strong>What it means:</strong> 'Peer-reviewed' just means other experts fact-checked the article before it was published.",
+        "<strong>Skip regular Google:</strong> Start from the Moore Library search bar so you don't hit paywalls.",
+        "<strong>Click one checkbox:</strong> After searching your topic, look at the left sidebar and check <strong>'Peer-Reviewed Journals'</strong>—every result left will count."
+      ],
+      scriptTemplate: (course) => `Hi! My professor for ${course} requires peer-reviewed articles. Can you show me how to filter my search results so only peer-reviewed sources show up?`,
+      primaryBtn: { text: "Start Library Search", url: CONFIG.searchUrl },
+      secondaryBtn: { text: "Ask a Librarian", url: CONFIG.chatUrl }
+    },
+    paywall: {
+      badge: "NEVER PAY OUT OF POCKET",
+      title: "Bypass That $40 Article Paywall for Free",
+      steps: [
+        "<strong>Don't enter a credit card:</strong> Your tuition already covers access to thousands of journals—and free borrowing from other libraries.",
+        "<strong>Log in with your Rider key:</strong> If you are off-campus, make sure you sign in with your Rider credentials when prompted.",
+        "<strong>Request the free PDF:</strong> If Rider doesn't own that exact journal, submit a 1-minute request and we'll email you the PDF (usually in 24–48 hours)."
+      ],
+      scriptTemplate: (course) => `Hi! I found an article I need for ${course}, but it’s asking me to pay. Can you check if Rider has free access or help me request the PDF?`,
+      primaryBtn: { text: "Request Free PDF / Book", url: CONFIG.illUrl },
+      secondaryBtn: { text: "Check With Live Chat", url: CONFIG.chatUrl }
+    },
+    space: {
+      badge: "NO RESERVATION NEEDED",
+      title: "Claim Your Spot, Plug In & Grab Free Gear",
+      steps: [
+        "<strong>Pick your noise level:</strong> Level 1 is great for group talk, snacks, and Bean Bag Alley; Level 2 is quiet whispers; Level 3 is complete silence.",
+        "<strong>Borrow free essentials:</strong> Stop by the main circulation desk with your Bronc ID for phone/laptop chargers, headphones, or whiteboard markers.",
+        "<strong>Take a breather:</strong> Need a quick reset between classes? Try our Light Therapy stations—no sign-up required."
+      ],
+      scriptTemplate: (course) => `Hi! Where can I find a quiet study spot with outlets right now, and can I borrow a charger or whiteboard markers at the circulation desk?`,
+      primaryBtn: { text: "View Library Hours", url: CONFIG.chatUrl },
+      secondaryBtn: null
+    }
+  };
+
+  let currentKey = "blank";
+
+  function selectScenario(key, btnEl) {
+    currentKey = key;
+    document.querySelectorAll(".choice-btn").forEach(b => b.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+
+    const data = SCENARIOS[key];
+    document.getElementById("resBadge").innerText = data.badge;
+    document.getElementById("resTitle").innerText = data.title;
+
+    const stepsEl = document.getElementById("resSteps");
+    stepsEl.innerHTML = data.steps.map(s => `<li class="mb-1">${s}</li>`).join("");
+
+    const actionsEl = document.getElementById("resActions");
+    let btnsHtml = `<a href="${data.primaryBtn.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-rider-purple">${data.primaryBtn.text}</a>`;
+    if (data.secondaryBtn) {
+      btnsHtml += `<a href="${data.secondaryBtn.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-rider-teal">${data.secondaryBtn.text}</a>`;
+    }
+    actionsEl.innerHTML = btnsHtml;
+
+    updateScriptText();
+    notifyParentHeight();
+  }
+
+  function updateScriptText() {
+    const rawCourse = document.getElementById("courseInput").value.trim();
+    const courseLabel = rawCourse ? rawCourse : "my class";
+    document.getElementById("resScript").innerText = `“${SCENARIOS[currentKey].scriptTemplate(courseLabel)}”`;
+  }
+
+  function copyGeneratedScript() {
+    const text = document.getElementById("resScript").innerText.replace(/^[“"]|[”"]$/g, "");
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById("copyBtn");
+      btn.innerText = "Copied!";
+      btn.classList.replace("btn-outline-secondary", "btn-rider-purple");
+      setTimeout(() => {
+        btn.innerText = "Copy Script";
+        btn.classList.replace("btn-rider-purple", "btn-outline-secondary");
+      }, 1800);
+    });
+  }
+
+  // Auto-communicate height to Springshare parent page if listener is present
+  function notifyParentHeight() {
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: "mooreWidgetResize", height: document.body.scrollHeight }, "*");
+    }
+  }
+
+  window.addEventListener("load", () => {
+    selectScenario("blank", document.querySelector('[data-scenario="blank"]'));
+  });
+  window.addEventListener("resize", notifyParentHeight);
+</script>
+
+</body>
+</html>
