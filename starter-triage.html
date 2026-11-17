@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moore Library Interactive Student Triage</title>
+  <title>Syllabus &amp; Rubric Buzzword Decoder</title>
   <!-- Bootstrap 5.3 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
@@ -11,9 +11,9 @@
       --rider-purple: #572c9f;
       --rider-purple-dark: #3b1c71;
       --rider-purple-soft: #f3effb;
-      --rider-cranberry: #9f1239;
-      --rider-teal: #0d9488;
-      --rider-teal-dark: #0f766e;
+      --warm-orange: #ea580c;
+      --warm-amber: #f59e0b;
+      --warm-orange-soft: #fff7ed;
       --rider-slate: #1e293b;
       --rider-border: #e2e8f0;
     }
@@ -26,18 +26,20 @@
       padding: 0.25rem;
     }
 
-    .widget-shell {
+    .decoder-shell {
       border: 2px solid var(--rider-purple);
       border-radius: 0.75rem;
       background-color: #ffffff;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(87, 44, 159, 0.08);
+      box-shadow: 0 6px 18px rgba(87, 44, 159, 0.1);
     }
 
-    .widget-header {
-      background: linear-gradient(90deg, var(--rider-purple) 0%, var(--rider-purple-dark) 100%);
+    /* High-Contrast Purple + Warm Orange Header */
+    .decoder-header {
+      background: linear-gradient(120deg, var(--rider-purple-dark) 0%, var(--rider-purple) 62%, var(--warm-orange) 100%);
       color: #ffffff;
-      padding: 0.85rem 1.25rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 4px solid var(--warm-amber);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -45,280 +47,233 @@
       gap: 0.5rem;
     }
 
-    .choice-btn {
-      text-align: left;
-      border: 1.5px solid var(--rider-border);
+    .header-pill {
+      background-color: var(--warm-amber);
+      color: #1e1b4b;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    /* Toggleable Buzzword Chips */
+    .term-chip {
+      border: 1.5px solid #cbd5e1;
       background-color: #ffffff;
       color: var(--rider-slate);
-      border-radius: 0.6rem;
-      padding: 0.85rem 1rem;
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      font-size: 0.94rem;
+      cursor: pointer;
       transition: all 0.15s ease;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      user-select: none;
     }
 
-    .choice-btn:hover {
-      border-color: var(--rider-purple);
-      background-color: var(--rider-purple-soft);
-      transform: translateY(-1px);
+    .term-chip:hover {
+      border-color: var(--warm-orange);
+      background-color: var(--warm-orange-soft);
     }
 
-    .choice-btn.active {
-      border-color: var(--rider-purple);
+    .term-chip.selected {
       background-color: var(--rider-purple);
+      border-color: var(--rider-purple);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(87, 44, 159, 0.22);
+      box-shadow: 0 3px 8px rgba(87, 44, 159, 0.22);
     }
 
-    .choice-btn.active .choice-sub {
-      color: rgba(255, 255, 255, 0.88) !important;
+    .term-chip.selected::before {
+      content: "✓ ";
+      color: var(--warm-amber);
+      font-weight: 800;
     }
 
-    .result-panel {
+    /* Output Cards */
+    .translation-card {
       background-color: #f8fafc;
       border: 1px solid var(--rider-border);
-      border-left: 5px solid var(--rider-teal);
-      border-radius: 0.6rem;
-      padding: 1.15rem;
-    }
-
-    .custom-script-box {
-      background-color: #ffffff;
-      border: 1px dashed var(--rider-purple);
+      border-left: 5px solid var(--warm-orange);
       border-radius: 0.5rem;
-      padding: 0.75rem 0.9rem;
-      font-size: 0.92rem;
+      padding: 0.85rem 1rem;
     }
 
-    .btn-rider-purple {
+    .btn-orange-cta {
+      background-color: var(--warm-orange);
+      border-color: var(--warm-orange);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .btn-orange-cta:hover {
+      background-color: #c2410c;
+      border-color: #c2410c;
+      color: #ffffff;
+    }
+
+    .btn-purple-cta {
       background-color: var(--rider-purple);
       border-color: var(--rider-purple);
       color: #ffffff;
       font-weight: 600;
     }
 
-    .btn-rider-purple:hover {
+    .btn-purple-cta:hover {
       background-color: var(--rider-purple-dark);
       border-color: var(--rider-purple-dark);
-      color: #ffffff;
-    }
-
-    .btn-rider-teal {
-      background-color: var(--rider-teal);
-      border-color: var(--rider-teal);
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .btn-rider-teal:hover {
-      background-color: var(--rider-teal-dark);
-      border-color: var(--rider-teal-dark);
       color: #ffffff;
     }
   </style>
 </head>
 <body>
 
-<div class="widget-shell">
-  <!-- Header -->
-  <div class="widget-header">
+<div class="decoder-shell">
+  <!-- Bold Purple + Orange Header -->
+  <div class="decoder-header">
     <div>
-      <span class="badge bg-white text-dark me-2">INTERACTIVE HELPER</span>
-      <strong class="fs-6">What Are You Dealing With Right Now?</strong>
+      <span class="header-pill me-2">Assignment Translator</span>
+      <strong class="fs-5 align-middle">Decode Your Professor’s Assignment Prompt</strong>
     </div>
-    <span class="small" style="color: rgba(255,255,255,0.9);">Tap a situation for an instant game plan</span>
+    <span class="small fw-semibold" style="color: #fef3c7;">Tap the confusing words on your rubric below</span>
   </div>
 
   <div class="p-3">
-    <!-- 4 Situation Selector Buttons -->
-    <div class="row g-2 mb-3" role="group" aria-label="Choose your current situation">
-      <div class="col-sm-6 col-lg-3">
-        <button type="button" class="btn choice-btn w-100 active" data-scenario="blank" onclick="selectScenario('blank', this)">
-          <span>“I haven't started my paper and feel overwhelmed.”</span>
-          <span class="choice-sub small text-muted fw-normal mt-1">Assignment &amp; topic kickoff</span>
-        </button>
-      </div>
+    <p class="small text-muted mb-2">
+      Professors use academic shorthand assuming everyone already knows what it means. <strong>Select every buzzword you see in your assignment instructions</strong> to build an instant plain-English checklist:
+    </p>
 
-      <div class="col-sm-6 col-lg-3">
-        <button type="button" class="btn choice-btn w-100" data-scenario="peer" onclick="selectScenario('peer', this)">
-          <span>“My professor wants ‘peer-reviewed’ sources.”</span>
-          <span class="choice-sub small text-muted fw-normal mt-1">Jargon decoder + filter tip</span>
-        </button>
-      </div>
-
-      <div class="col-sm-6 col-lg-3">
-        <button type="button" class="btn choice-btn w-100" data-scenario="paywall" onclick="selectScenario('paywall', this)">
-          <span>“An article is asking me to pay $40.”</span>
-          <span class="choice-sub small text-muted fw-normal mt-1">Free PDF delivery &amp; login</span>
-        </button>
-      </div>
-
-      <div class="col-sm-6 col-lg-3">
-        <button type="button" class="btn choice-btn w-100" data-scenario="space" onclick="selectScenario('space', this)">
-          <span>“I just need a spot to sit, plug in, or focus.”</span>
-          <span class="choice-sub small text-muted fw-normal mt-1">Outlets, markers &amp; noise zones</span>
-        </button>
-      </div>
+    <!-- Buzzword Selector Chips -->
+    <div class="d-flex flex-wrap gap-2 mb-3" id="chipContainer" role="group" aria-label="Select syllabus terms">
+      <button type="button" class="term-chip" data-term="empirical" onclick="toggleTerm(this)">Empirical Study</button>
+      <button type="button" class="term-chip" data-term="litreview" onclick="toggleTerm(this)">Literature Review</button>
+      <button type="button" class="term-chip" data-term="primary" onclick="toggleTerm(this)">Primary Source</button>
+      <button type="button" class="term-chip" data-term="annotated" onclick="toggleTerm(this)">Annotated Bibliography</button>
+      <button type="button" class="term-chip" data-term="synthesize" onclick="toggleTerm(this)">Synthesize Sources</button>
+      <button type="button" class="term-chip" data-term="monograph" onclick="toggleTerm(this)">Scholarly Monograph</button>
+      <button type="button" class="term-chip" data-term="abstract" onclick="toggleTerm(this)">Abstract</button>
+      <button type="button" class="term-chip" data-term="apa" onclick="toggleTerm(this)">APA / MLA / Chicago</button>
     </div>
 
-    <!-- Optional Course Input to Personalize Their Copy-Paste Script -->
-    <div class="row g-2 align-items-center mb-3">
-      <div class="col-md-5">
-        <label for="courseInput" class="form-label small fw-semibold mb-1">Optional: Type your class name to customize your message</label>
-        <input type="text" id="courseInput" class="form-control form-control-sm" placeholder="e.g., BIO-115, ENG-101, Psychology..." oninput="updateScriptText()" />
-      </div>
-      <div class="col-md-7 small text-muted pt-md-3">
-        Typing a class name automatically updates the ready-to-send script below so you don't have to edit brackets.
-      </div>
+    <!-- Empty State Prompt -->
+    <div id="emptyState" class="p-3 rounded-3 border text-center" style="background-color: var(--warm-orange-soft); border-color: #fed7aa !important;">
+      <p class="small fw-semibold mb-0" style="color: #9a3412;">
+        👆 Tap one or more words above (like <em>"Empirical Study"</em> or <em>"Annotated Bibliography"</em>) to translate what your professor actually wants.
+      </p>
     </div>
 
-    <!-- Dynamic Output Panel -->
-    <div class="result-panel" id="resultPanel" aria-live="polite">
-      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
-        <div>
-          <span class="badge mb-1" style="background-color: var(--rider-teal);" id="resBadge">STEP-BY-STEP GAME PLAN</span>
-          <h4 class="h6 fw-bold mb-0" id="resTitle"></h4>
-        </div>
-        <div class="d-flex flex-wrap gap-2" id="resActions"></div>
+    <!-- Dynamic Decoded Output -->
+    <div id="decodedOutput" class="d-none">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+        <span class="fw-bold small text-uppercase" style="color: var(--rider-purple);">Your Plain-English Assignment Translation:</span>
+        <button type="button" class="btn btn-link btn-sm text-muted p-0 text-decoration-none" onclick="clearAllTerms()">Clear selections</button>
       </div>
 
-      <ol class="small mb-3 ps-3" id="resSteps"></ol>
+      <div id="translationList" class="d-flex flex-column gap-2 mb-3"></div>
 
-      <!-- Auto-Generated Copy-Paste Script -->
-      <div class="custom-script-box d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <div class="flex-grow-1">
-          <span class="d-block small fw-bold text-uppercase" style="color: var(--rider-purple);">Ready-to-Send Chat or Desk Script:</span>
-          <span id="resScript" class="fst-italic"></span>
+      <!-- Action Footer -->
+      <div class="p-2 px-3 rounded-3 d-flex flex-wrap justify-content-between align-items-center gap-2" style="background-color: var(--rider-purple-soft);">
+        <span class="small fw-semibold" style="color: var(--rider-purple-dark);">
+          Want help finding sources that match these exact rules?
+        </span>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="https://rider.libcal.com/appointments" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-orange-cta">Book a 15-Min Kickoff</a>
+          <a href="https://guides.rider.edu/home" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-purple-cta">Search Moore Library</a>
         </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary flex-shrink-0" id="copyBtn" onclick="copyGeneratedScript()">Copy Script</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // ============================================================
-  // 1. UPDATE YOUR RIDER UNIVERSITY LINKS HERE ONCE
-  // ============================================================
-  const CONFIG = {
-    libcalUrl: "https://rider.libcal.com/appointments",
-    chatUrl: "https://guides.rider.edu/home",
-    illUrl: "https://guides.rider.edu/home",
-    searchUrl: "https://guides.rider.edu/home"
-  };
-
-  // ============================================================
-  // 2. SCENARIO DATA (PLAIN ENGLISH, ZERO JARGON)
-  // ============================================================
-  const SCENARIOS = {
-    blank: {
-      badge: "NO OUTLINE NEEDED",
-      title: "Starting From Scratch Is Completely Normal",
-      steps: [
-        "<strong>Bring just your assignment prompt:</strong> You do not need a thesis statement or a finished topic before talking to us.",
-        "<strong>Pick 2–3 everyday keywords:</strong> Write down the main topic words from your syllabus—don't worry about fancy academic phrasing yet.",
-        "<strong>Grab a 15-minute kickoff:</strong> A librarian will sit with you (on Zoom or in person) and help you pull 3 solid sources right away."
-      ],
-      scriptTemplate: (course) => `Hi! I have a research assignment for ${course} and I’m starting from scratch. Can someone help me narrow down a topic and find 3 good sources?`,
-      primaryBtn: { text: "Book a 15-Min Kickoff", url: CONFIG.libcalUrl },
-      secondaryBtn: { text: "Open Live Chat", url: CONFIG.chatUrl }
+  const TERMS = {
+    empirical: {
+      label: "Empirical Study",
+      meaning: "An article where researchers actually ran an experiment, survey, or observation and collected real data—not an opinion piece or summary.",
+      tip: "Look for sections inside the article labeled <strong>Methods</strong>, <strong>Participants</strong>, and <strong>Results</strong>."
     },
-    peer: {
-      badge: "JARGON DECODER",
-      title: "How to Find 'Peer-Reviewed' Articles in 30 Seconds",
-      steps: [
-        "<strong>What it means:</strong> 'Peer-reviewed' just means other experts fact-checked the article before it was published.",
-        "<strong>Skip regular Google:</strong> Start from the Moore Library search bar so you don't hit paywalls.",
-        "<strong>Click one checkbox:</strong> After searching your topic, look at the left sidebar and check <strong>'Peer-Reviewed Journals'</strong>—every result left will count."
-      ],
-      scriptTemplate: (course) => `Hi! My professor for ${course} requires peer-reviewed articles. Can you show me how to filter my search results so only peer-reviewed sources show up?`,
-      primaryBtn: { text: "Start Library Search", url: CONFIG.searchUrl },
-      secondaryBtn: { text: "Ask a Librarian", url: CONFIG.chatUrl }
+    litreview: {
+      label: "Literature Review",
+      meaning: "You aren't running a new experiment—you're summarizing and comparing what experts have already discovered about your topic.",
+      tip: "Group your sources by theme or debate (e.g., '3 studies agree on X, while 2 studies argue Y') instead of summarizing one article per paragraph."
     },
-    paywall: {
-      badge: "NEVER PAY OUT OF POCKET",
-      title: "Bypass That $40 Article Paywall for Free",
-      steps: [
-        "<strong>Don't enter a credit card:</strong> Your tuition already covers access to thousands of journals—and free borrowing from other libraries.",
-        "<strong>Log in with your Rider key:</strong> If you are off-campus, make sure you sign in with your Rider credentials when prompted.",
-        "<strong>Request the free PDF:</strong> If Rider doesn't own that exact journal, submit a 1-minute request and we'll email you the PDF (usually in 24–48 hours)."
-      ],
-      scriptTemplate: (course) => `Hi! I found an article I need for ${course}, but it’s asking me to pay. Can you check if Rider has free access or help me request the PDF?`,
-      primaryBtn: { text: "Request Free PDF / Book", url: CONFIG.illUrl },
-      secondaryBtn: { text: "Check With Live Chat", url: CONFIG.chatUrl }
+    primary: {
+      label: "Primary Source",
+      meaning: "Firsthand evidence created at the time of an event or original data—like a historical letter, interview, court ruling, or original scientific study.",
+      tip: "If an article is just talking about someone else's study or historical event, that's a <em>secondary</em> source."
     },
-    space: {
-      badge: "NO RESERVATION NEEDED",
-      title: "Claim Your Spot, Plug In & Grab Free Gear",
-      steps: [
-        "<strong>Pick your noise level:</strong> Level 1 is great for group talk, snacks, and Bean Bag Alley; Level 2 is quiet whispers; Level 3 is complete silence.",
-        "<strong>Borrow free essentials:</strong> Stop by the main circulation desk with your Bronc ID for phone/laptop chargers, headphones, or whiteboard markers.",
-        "<strong>Take a breather:</strong> Need a quick reset between classes? Try our Light Therapy stations—no sign-up required."
-      ],
-      scriptTemplate: (course) => `Hi! Where can I find a quiet study spot with outlets right now, and can I borrow a charger or whiteboard markers at the circulation desk?`,
-      primaryBtn: { text: "View Library Hours", url: CONFIG.chatUrl },
-      secondaryBtn: null
+    annotated: {
+      label: "Annotated Bibliography",
+      meaning: "A regular Works Cited / References list, except right underneath each citation you write a short paragraph (100–150 words) summarizing what the source says and why it's useful for your paper.",
+      tip: "Read the article's summary first to see if it fits before writing your annotation."
+    },
+    synthesize: {
+      label: "Synthesize Sources",
+      meaning: "Putting your sources in conversation with each other—showing how different authors agree, disagree, or build on one another—rather than listing quotes one by one.",
+      tip: "Use transition phrases like <em>'Similarly, Smith (2023) found...'</em> or <em>'In contrast to Jones...'</em>"
+    },
+    monograph: {
+      label: "Scholarly Monograph",
+      meaning: "A fancy academic word for a serious, non-fiction book written by an expert on one specific subject (usually published by a university press).",
+      tip: "You rarely need to read the whole book—check the Table of Contents and Index for the 1–2 chapters that match your topic."
+    },
+    abstract: {
+      label: "Abstract",
+      meaning: "The 1-paragraph summary at the very top of a scholarly article that tells you what the study did and what it found.",
+      tip: "Always read the abstract first! It saves you from reading a 25-page PDF that doesn't actually fit your paper."
+    },
+    apa: {
+      label: "APA / MLA / Chicago Style",
+      meaning: "Just the specific formatting rules for how you list your sources at the end of your paper and credit quotes inside your paragraphs.",
+      tip: "Don't format these by hand—click the <strong>Cite</strong> button in Moore Library's search results to copy a pre-formatted citation."
     }
   };
 
-  let currentKey = "blank";
+  function toggleTerm(btn) {
+    btn.classList.toggle("selected");
+    renderTranslations();
+  }
 
-  function selectScenario(key, btnEl) {
-    currentKey = key;
-    document.querySelectorAll(".choice-btn").forEach(b => b.classList.remove("active"));
-    if (btnEl) btnEl.classList.add("active");
+  function clearAllTerms() {
+    document.querySelectorAll(".term-chip.selected").forEach(btn => btn.classList.remove("selected"));
+    renderTranslations();
+  }
 
-    const data = SCENARIOS[key];
-    document.getElementById("resBadge").innerText = data.badge;
-    document.getElementById("resTitle").innerText = data.title;
+  function renderTranslations() {
+    const selectedBtns = Array.from(document.querySelectorAll(".term-chip.selected"));
+    const emptyState = document.getElementById("emptyState");
+    const output = document.getElementById("decodedOutput");
+    const list = document.getElementById("translationList");
 
-    const stepsEl = document.getElementById("resSteps");
-    stepsEl.innerHTML = data.steps.map(s => `<li class="mb-1">${s}</li>`).join("");
-
-    const actionsEl = document.getElementById("resActions");
-    let btnsHtml = `<a href="${data.primaryBtn.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-rider-purple">${data.primaryBtn.text}</a>`;
-    if (data.secondaryBtn) {
-      btnsHtml += `<a href="${data.secondaryBtn.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-rider-teal">${data.secondaryBtn.text}</a>`;
+    if (selectedBtns.length === 0) {
+      emptyState.classList.remove("d-none");
+      output.classList.add("d-none");
+      list.innerHTML = "";
+    } else {
+      emptyState.classList.add("d-none");
+      output.classList.remove("d-none");
+      list.innerHTML = selectedBtns.map(btn => {
+        const item = TERMS[btn.dataset.term];
+        return `
+          <div class="translation-card">
+            <div class="fw-bold small mb-1" style="color: #c2410c;">${item.label}</div>
+            <p class="small mb-1">${item.meaning}</p>
+            <p class="small text-muted mb-0"><strong>Pro Tip:</strong> ${item.tip}</p>
+          </div>
+        `;
+      }).join("");
     }
-    actionsEl.innerHTML = btnsHtml;
 
-    updateScriptText();
     notifyParentHeight();
   }
 
-  function updateScriptText() {
-    const rawCourse = document.getElementById("courseInput").value.trim();
-    const courseLabel = rawCourse ? rawCourse : "my class";
-    document.getElementById("resScript").innerText = `“${SCENARIOS[currentKey].scriptTemplate(courseLabel)}”`;
-  }
-
-  function copyGeneratedScript() {
-    const text = document.getElementById("resScript").innerText.replace(/^[“"]|[”"]$/g, "");
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById("copyBtn");
-      btn.innerText = "Copied!";
-      btn.classList.replace("btn-outline-secondary", "btn-rider-purple");
-      setTimeout(() => {
-        btn.innerText = "Copy Script";
-        btn.classList.replace("btn-rider-purple", "btn-outline-secondary");
-      }, 1800);
-    });
-  }
-
-  // Auto-communicate height to Springshare parent page if listener is present
   function notifyParentHeight() {
     if (window.parent !== window) {
       window.parent.postMessage({ type: "mooreWidgetResize", height: document.body.scrollHeight }, "*");
     }
   }
 
-  window.addEventListener("load", () => {
-    selectScenario("blank", document.querySelector('[data-scenario="blank"]'));
-  });
+  window.addEventListener("load", notifyParentHeight);
   window.addEventListener("resize", notifyParentHeight);
 </script>
 
