@@ -12,7 +12,8 @@
       --rider-purple-dark: #3b1c71;
       --rider-purple-soft: #f3effb;
       --warm-orange: #ea580c;
-      --warm-amber: #f59e0b;
+      --warm-orange-dark: #c2410c;
+      --warm-amber: #fbbf24;
       --warm-orange-soft: #fff7ed;
       --rider-slate: #1e293b;
       --rider-border: #e2e8f0;
@@ -27,19 +28,19 @@
     }
 
     .decoder-shell {
-      border: 2px solid var(--rider-purple);
+      border: 2px solid var(--warm-orange);
       border-radius: 0.75rem;
       background-color: #ffffff;
       overflow: hidden;
-      box-shadow: 0 6px 18px rgba(87, 44, 159, 0.1);
+      box-shadow: 0 6px 18px rgba(234, 88, 12, 0.14);
     }
 
-    /* High-Contrast Purple + Warm Orange Header */
+    /* Full Solid Warm Orange Header with Rider Purple Accent Border */
     .decoder-header {
-      background: linear-gradient(120deg, var(--rider-purple-dark) 0%, var(--rider-purple) 62%, var(--warm-orange) 100%);
+      background: linear-gradient(135deg, var(--warm-orange) 0%, var(--warm-orange-dark) 100%);
       color: #ffffff;
       padding: 1rem 1.25rem;
-      border-bottom: 4px solid var(--warm-amber);
+      border-bottom: 4px solid var(--rider-purple);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -48,12 +49,13 @@
     }
 
     .header-pill {
-      background-color: var(--warm-amber);
-      color: #1e1b4b;
+      background-color: var(--rider-purple-dark);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       font-size: 0.75rem;
-      padding: 0.3rem 0.65rem;
+      padding: 0.32rem 0.7rem;
       border-radius: 999px;
       text-transform: uppercase;
     }
@@ -107,8 +109,8 @@
     }
 
     .btn-orange-cta:hover {
-      background-color: #c2410c;
-      border-color: #c2410c;
+      background-color: var(--warm-orange-dark);
+      border-color: var(--warm-orange-dark);
       color: #ffffff;
     }
 
@@ -129,13 +131,13 @@
 <body>
 
 <div class="decoder-shell">
-  <!-- Bold Purple + Orange Header -->
+  <!-- Full Solid Warm Orange Header -->
   <div class="decoder-header">
     <div>
       <span class="header-pill me-2">Assignment Translator</span>
       <strong class="fs-5 align-middle">Decode Your Professor’s Assignment Prompt</strong>
     </div>
-    <span class="small fw-semibold" style="color: #fef3c7;">Tap the confusing words on your rubric below</span>
+    <span class="small fw-bold" style="color: #fff7ed;">Tap the confusing words on your rubric below</span>
   </div>
 
   <div class="p-3">
@@ -145,13 +147,17 @@
 
     <!-- Buzzword Selector Chips -->
     <div class="d-flex flex-wrap gap-2 mb-3" id="chipContainer" role="group" aria-label="Select syllabus terms">
+      <button type="button" class="term-chip" data-term="thesis" onclick="toggleTerm(this)">Thesis Statement</button>
+      <button type="button" class="term-chip" data-term="peerreviewed" onclick="toggleTerm(this)">Peer-Reviewed / Refereed</button>
       <button type="button" class="term-chip" data-term="empirical" onclick="toggleTerm(this)">Empirical Study</button>
       <button type="button" class="term-chip" data-term="litreview" onclick="toggleTerm(this)">Literature Review</button>
       <button type="button" class="term-chip" data-term="primary" onclick="toggleTerm(this)">Primary Source</button>
       <button type="button" class="term-chip" data-term="annotated" onclick="toggleTerm(this)">Annotated Bibliography</button>
+      <button type="button" class="term-chip" data-term="qualquant" onclick="toggleTerm(this)">Qualitative vs. Quantitative</button>
       <button type="button" class="term-chip" data-term="synthesize" onclick="toggleTerm(this)">Synthesize Sources</button>
       <button type="button" class="term-chip" data-term="monograph" onclick="toggleTerm(this)">Scholarly Monograph</button>
       <button type="button" class="term-chip" data-term="abstract" onclick="toggleTerm(this)">Abstract</button>
+      <button type="button" class="term-chip" data-term="rubric" onclick="toggleTerm(this)">Grading Rubric</button>
       <button type="button" class="term-chip" data-term="apa" onclick="toggleTerm(this)">APA / MLA / Chicago</button>
     </div>
 
@@ -187,6 +193,16 @@
 
 <script>
   const TERMS = {
+    thesis: {
+      label: "Thesis Statement",
+      meaning: "The single main argument or claim your entire paper is proving—not just a description of your topic.",
+      tip: "Test your sentence: instead of <em>'This paper is about social media,'</em> try <em>'Daily short-form video use reduces sleep quality among college freshmen by delaying melatonin onset.'</em>"
+    },
+    peerreviewed: {
+      label: "Peer-Reviewed / Refereed",
+      meaning: "An article that was strictly fact-checked and approved by other Ph.D. experts in that subject before a journal agreed to publish it.",
+      tip: "In Moore Library's main search bar, check the <strong>Peer-Reviewed Journals</strong> filter on the left so you don't have to guess."
+    },
     empirical: {
       label: "Empirical Study",
       meaning: "An article where researchers actually ran an experiment, survey, or observation and collected real data—not an opinion piece or summary.",
@@ -207,6 +223,11 @@
       meaning: "A regular Works Cited / References list, except right underneath each citation you write a short paragraph (100–150 words) summarizing what the source says and why it's useful for your paper.",
       tip: "Read the article's summary first to see if it fits before writing your annotation."
     },
+    qualquant: {
+      label: "Qualitative vs. Quantitative",
+      meaning: "<strong>Quantitative</strong> studies measure numbers, statistics, and percentages. <strong>Qualitative</strong> studies analyze interviews, open-ended stories, and lived experiences.",
+      tip: "If your prompt asks for 'quantitative data,' look for charts, sample sizes (n = 200), and statistical tables."
+    },
     synthesize: {
       label: "Synthesize Sources",
       meaning: "Putting your sources in conversation with each other—showing how different authors agree, disagree, or build on one another—rather than listing quotes one by one.",
@@ -221,6 +242,11 @@
       label: "Abstract",
       meaning: "The 1-paragraph summary at the very top of a scholarly article that tells you what the study did and what it found.",
       tip: "Always read the abstract first! It saves you from reading a 25-page PDF that doesn't actually fit your paper."
+    },
+    rubric: {
+      label: "Grading Rubric",
+      meaning: "Your professor's exact scoring checklist showing how many points each part of your assignment is worth.",
+      tip: "Turn the highest-point column of the rubric into your outline headings before you start writing."
     },
     apa: {
       label: "APA / MLA / Chicago Style",
